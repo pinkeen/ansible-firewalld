@@ -1,0 +1,8 @@
+firewall_public_interfaces: ["{{ ansible_default_ipv4.interface }}"]
+firewall_public_services: []
+firewall_public_ports: []
+
+firewall_internal_interfaces: []
+firewall_internal_services: []
+firewall_internal_ports: []
+

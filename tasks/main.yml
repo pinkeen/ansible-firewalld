@@ -1,0 +1,59 @@
+- name: Install firewalld
+  yum: name=firewalld state=present
+
+- name: Start & enable firewalld
+  service: name=firewalld state=started enabled=yes
+
+- name: Setup firewall public zone
+  firewalld:
+    zone: public
+    interface: "{{ item }}"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items: "{{ firewall_public_interfaces }}"
+
+- name: Setup firewall internal zone
+  firewalld:
+    zone: internal
+    interface: "{{ item }}"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items: "{{ firewall_internal_interfaces }}"
+
+- name: Open public services
+  firewalld:
+    zone: public
+    permanent: yes
+    immediate: yes
+    service: "{{ item }}"
+    state: enabled
+  with_items: "{{ firewall_public_services }}"
+
+- name: Open internal services
+  firewalld:
+    zone: internal
+    permanent: yes
+    immediate: yes
+    service: "{{ item }}"
+    state: enabled
+  with_items: "{{ firewall_internal_services }}"
+
+- name: Open public ports
+  firewalld:
+    zone: public
+    permanent: yes
+    immediate: yes
+    port: "{{ item }}"
+    state: enabled
+  with_items: "{{ firewall_public_ports }}"
+
+- name: Open internal ports
+  firewalld:
+    zone: internal
+    permanent: yes
+    immediate: yes
+    port: "{{ item }}"
+    state: enabled
+  with_items: "{{ firewall_internal_ports }}"
